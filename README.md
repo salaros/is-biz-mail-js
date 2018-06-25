@@ -1,9 +1,13 @@
 Business Email Checker
-[![License](https://poser.pugx.org/salaros/is-biz-mail/license)](https://packagist.org/packages/salaros/is-biz-mail)
-![GitHub tag](https://img.shields.io/github/tag/salaros/is-biz-mail.svg)
-![GitHub language count](https://img.shields.io/github/languages/count/salaros/is-biz-mail.svg)
-![GitHub issues](https://img.shields.io/github/issues/salaros/is-biz-mail.svg)
-================================================================================================
+[![Build Status](https://travis-ci.org/salaros/is-biz-mail-js.svg?branch=master)](https://travis-ci.org/salaros/is-biz-mail-js)
+[![Coverage Status](https://coveralls.io/repos/github/salaros/is-biz-mail-js/badge.svg?branch=master)](https://coveralls.io/github/salaros/is-biz-mail-js?branch=master)
+======================
+[![License](https://img.shields.io/github/license/salaros/is-biz-mail-js.svg)](https://github.com/salaros/is-biz-mail-js/blob/master/LICENSE)
+![js type](https://img.shields.io/badge/type-Vanilla%20|%20CommonJS-589594.svg)
+[![npm](https://img.shields.io/npm/v/is-biz-mail.svg)](https://www.npmjs.com/package/is-biz-mail)
+![npm](https://img.shields.io/npm/dt/is-biz-mail.svg)
+![npm](https://img.shields.io/npm/dw/is-biz-mail.svg)
+![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/is-biz-mail.svg)
 
 **isBizMail** tells you whether a given email address is free (gmail.com, yahoo.es, yandex.ru etc) or not.
 The list of emails used by **isBizMail** is taken from [here](http://svn.apache.org/repos/asf/spamassassin/trunk/rules/20_freemail_domains.cf)¹.
@@ -11,82 +15,7 @@ Detects around 2500 domains and subdomains.
 
 1) *All credits for the list itself go to [SpamAssasin](https://spamassassin.apache.org/) authors and contributors*
 
-PHP
-![PHP version](https://img.shields.io/badge/PHP%20version-5.4.+%20|%207.0+-blue.svg)
-[![Latest Stable Version](https://poser.pugx.org/salaros/is-biz-mail/version)](https://packagist.org/packages/salaros/is-biz-mail)
-[![Total Downloads](https://poser.pugx.org/salaros/is-biz-mail/downloads)](https://packagist.org/packages/salaros/is-biz-mail)
-[![composer.lock available](https://poser.pugx.org/salaros/is-biz-mail/composerlock)](https://packagist.org/packages/salaros/is-biz-mail)
-================================================================================================
-[![Travis CI build Status](https://travis-ci.org/salaros/is-biz-mail.svg?branch=master)](https://travis-ci.org/salaros/is-biz-mail)
-[![Code Coverage](https://scrutinizer-ci.com/g/salaros/is-biz-mail/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/salaros/is-biz-mail/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/salaros/is-biz-mail/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/salaros/is-biz-mail/?branch=master)
-
-You can install **isBizMail** via Composer:
-
-```bash
-composer require salaros/is-biz-mail
-```
-
-or by adding it directly to your composer.json file:
-
-```json
-{
-    "require": {
-        "salaros/is-biz-mail": "*"
-    }
-}
-```
-
-Then use it like this:
-
-```php
-<?php
-
-require 'path/to/vendor/autoload.php';
-
-use Salaros\Email\IsBizMail;
-
-(new IsBizMail())->isValid('foo@bar.com');      // true
-
-// You can use static access as well
-IsBizMail::isValid('hello@gmail.com');          // false
-// ...
-```
-
-You can easily drop it into your [Yii2 model](https://www.yiiframework.com/doc/guide/2.0/en/input-validation#declaring-rules)'s rules:
-
-```php
-public function rules() {
-  return [
-    // ...
-    [['email'], 'isBusinessEmail'],
-    // ...
-  ];
-}
-
-public function isBusinessEmail($attributeName, $params) {
-  $isBussiness = (new IsBizMail())->isValid($this->email);
-  if (!isBussiness)
-    $this->addError($attributeName, 'Mail boxes such as @gmail.com, @yahoo.com etc are not allowed!');
-  return $isBussiness;
-}
-```
-
-## Testing: [PHPUnit](https://phpunit.de/)
-
-```bash
-composer install
-composer test   # or ./vendor/bin/phpunit
-```
-
-JavaScript
-![js type](https://img.shields.io/badge/type-Vanilla%20|%20CommonJS-589594.svg)
-[![npm](https://img.shields.io/npm/v/is-biz-mail.svg)](https://www.npmjs.com/package/is-biz-mail)
-![npm](https://img.shields.io/npm/dt/is-biz-mail.svg)
-![npm](https://img.shields.io/npm/dw/is-biz-mail.svg)
-![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/is-biz-mail.svg)
-================================================================================================
-[![Travis CI build Status](https://travis-ci.org/salaros/is-biz-mail.svg?branch=master)](https://travis-ci.org/salaros/is-biz-mail)
+## Installation
 
 You can install **isBizMail** for JavaScript via your prefered dependency manager, e.g. Yarn
 
