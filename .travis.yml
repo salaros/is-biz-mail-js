@@ -17,7 +17,7 @@ script:
 after_success:
 - travis_retry npm run coverage
 before_deploy:
-- npm version $TRAVIS_TAG
+- '[[ $(grep "\"version\":" package.json | cut -d\" -f4) != $TRAVIS_TAG ]] && npm version $TRAVIS_TAG || echo "Package versions = tag"'
 deploy:
   provider: npm
   email: salaros@yandex.ru
