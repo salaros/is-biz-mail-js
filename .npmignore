@@ -6,6 +6,9 @@ Thumbs.db
 
 # Folders
 build
+assets
+test
+coverage
 vendor
 node_modules
 src/php
@@ -20,6 +23,7 @@ test/dotnet
 .gitignore
 .gitattributes
 .npmignore
+.nyc_output
 
 # Visual Studio
 .vs
@@ -28,6 +32,7 @@ test/dotnet
 global.json
 
 # Files
+*.tgz
 composer.*
 phpunit.xml
 Makefile
