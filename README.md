@@ -36,7 +36,8 @@ One of examples of vanilla JavaScript usage might be a simple HTML page:
 ```html
 <script src="path/to/src/javascript/is-biz-mail.js"></script>
 <script>
-    var result = isBizMail.isValid(email);
+    var email = 'foo@nodejs.onmicrosoft.com"',
+        result = isBizMail.isValid(email);
     console.log([email, result]);   // (2) ["foo@nodejs.onmicrosoft.com", false]
 </script>
 ```
@@ -46,7 +47,8 @@ One of examples of vanilla JavaScript usage might be a simple HTML page:
 ```js
 const isBizMail = require('is-biz-mail');
 
-let result = isBizMail.isFreeMailAddress(email);
+let email = 'es6@live.com',
+    result = isBizMail.isFreeMailAddress(email);
 console.log([email, result]);   // (2) ["es6@live.com", true]
 // ...
 ```
@@ -63,37 +65,4 @@ or via NPM
 ```bash
 npm install
 npm test    # or ./node_modules/.bin/mocha
-```
-
-dotnet (.NET)
-[![NuGet](https://img.shields.io/nuget/v/Salaros.Email.IsBizMail.svg?label=NuGet&colorA=404680&colorB=98976B)](https://www.nuget.org/packages/Salaros.Email.IsBizMail)
-[![NuGet](https://img.shields.io/nuget/dt/Salaros.Email.IsBizMail.svg)](https://www.nuget.org/packages/Salaros.Email.IsBizMail)
-[![.NET Standard](https://img.shields.io/badge/.NET%20Standard-2.0+-784877.svg)](https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support)
-================================================================================================
-
-You can install IsBizMail for **.NET Core 2.0+ / Framework 4.6.1+, Mono 5.4+** etc via [NuGet](https://www.nuget.org/packages/Salaros.Email.IsBizMail/).
-
-You could build it from sources via:
-
-```bash
-dotnet build
-```
-
-IsBizMail in .NET is a static class, so can use it like this:
-
-```cs
-using Salaros.Email;
-
-//..
-{
-    Console.WriteLine(IsBizMail.IsValid("foo@bar.com"));        // true
-    Console.WriteLine(IsBizMail.IsValid("hello@gmail.com"));    // false
-//..
-
-```
-
-## Testing: xUnit.net
-
-```bash
-dotnet test test/dotnet
 ```
