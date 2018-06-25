@@ -1,3 +1,0 @@
-service_name: travis-ci
-coverage_clover: ./test/php/reports/clover.xml
-json_path: ./test/php/reports/coveralls-upload.json

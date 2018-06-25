@@ -1,7 +1,7 @@
 let should = require('should'),
     assert = require('assert'),
-    isBizMail = require('../../src/commonjs/'),
-    emailSamples = require('../emailSamples.json');
+    isBizMail = require('../src/commonjs/'),
+    emailSamples = require('../assets/emailSamples.json');
 
 describe('isBizMail.isFreeMailAddress', function () {
     it('isBizMail.isFreeMailAddress - is defined', function () {

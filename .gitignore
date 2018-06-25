@@ -1,20 +1,8 @@
 # Build dir
 build/
 
-# PHP stuff
-vendor/
-composer.lock
-test/php/reports/
-
 # JavaScript
 node_modules/
 package-lock\.json
 \.nyc_output/
 coverage/
-
-# .NET
-src/dotnet/bin
-src/dotnet/obj
-test/dotnet/bin
-test/dotnet/obj
-\.vs/
