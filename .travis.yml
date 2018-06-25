@@ -2,23 +2,26 @@ env:
   global:
   - COVERALLS_RUN_LOCALLY=1
   - secure: umegkGPWkYPKh5In5QQ1kgN1b+PH4tzS2xA49qaOUbYIWZZPJEc6SkGnOCOQKZMQuZiQMbK3RmD1INYWV2wNKsjlo1kpXwYJLHSKnO/SbR7teMu4nzs3c5Xr2zMMoV6LMKEm42VXiH4XEvbkLKaGt9fDiiSXTihf6sVZEmPDg8LI9jRK3KjWOEBatL1Wa/9M6ZZYmOwbMKdpRUh8ichVN10YgHby/9BNLa8Jld0Zh3HJyCGbUrvrY/+aTNEe7AWq5J2WXjFHNJXKoun/c9JnPT2weL0hRWChLHyXmaOmzcQsLC/614cSAXbcUbeDTSoRTXmv+Wp0oPYLT1Gq8/NCl7LHXzzluvy1kUZ28qdgHvomLYTN/ZqcRTiqvL7g4qZ3qcpcYBS8yy9OG34M6whlNmNFUlKZkMeqVLGqMjr5/OioYBB57MzVVjceW7kBFedZljzRSaAdZ1sGGQpoAh/RsxsIU6IiI30BdKKKY8hXHm7+N9t77QNwiEJCfn3/87W6DSao+usF2dUYTgdVeKI98jAre59mxqFxUQ3KLMrVL4li1/g+VKoLOk6kUcz8tsDk/BJIz94BNw/P7DtvzVrK/bSSbMkxji80uecPfi0azjTkFRPkhTbSOGKFeV/qCLHYzqfu1UaeA7Xsj7PHhmLqpLk51xXY0QbLEfrlZ3Md/W4=
-
 language: node_js
-
 node_js:
 - '6.0'
 - '8.0'
 - '10.0'
-
 before_script:
 - yarn install
-
 cache:
   directories:
   - node_modules
-
 script:
-  - npm run test
-
+- npm run test
 after_success:
-  - travis_retry npm run coverage
+- travis_retry npm run coverage
+before_deploy:
+- npm version $TRAVIS_TAG
+deploy:
+  provider: npm
+  email: salaros@yandex.ru
+  on:
+    tags: true
+  api_key:
+    secure: SEOtKy+YiEBW6udhS+ddkWodva/gb13N3U40MXHWHdqCMpvZoIN5mWKgJC1JKBlRaopCikejm5nxY/UAvJsU+PfyvSg/GGSU4djkdMMwQxOagjELw3prAvuHHTy9vFYe9JLJzd/v9JvUq/AhHcVoCYV5BaiQ4W7MK/pNd24UwaSf9TfDWd1Pdyqqolpg2hu3waIFjogUhNNKEawGsj0aCFMUi2QBrrdj4pr5+ovORAJF1lVl3jUi7ZfQ3TTWJrSq06MqLFR+jyNARqSqosAPRZV42zVFKVPZUoBzH726aCsADrw6q5CtK6yeoeWf6vgADtMx6ZxLEvt18MuM9hCUCaIYiLR+L3FOPNGLc4CEzB7Z8YpkUu9pKCICI/MuU4qlpgQEBxX1fX3oLrfCWl7SXYc2Brv8O/3vc7TVs5/uzAOC7ZgsJkK4c5wEAWad0uqU8uaMcODStEiTq+Uwo+gDc/SKS/qSwfcnfuj/714By1+5KKM+IFmvwLTneZT4Js/Y2Q4fFjNffTCDEYrcD/EzdldcLsjEBEdgLec4iNKNJoU1anOy+HnmTvLCr7MduwZHQK9QE2TkkkckKp/WTiSULwrxdY0XsLis2SAYau1swU4/xoMs3dPPzNW4NfJLXI535J8asxPO/v7xw9Zd1YcbinrwSpGWH+whtK5d0pVHavA=
