@@ -14,5 +14,26 @@
     "scripts": {
         "test": "./node_modules/.bin/nyc --reporter=html --reporter=text ./node_modules/mocha/bin/mocha",
         "coverage": "./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls"
-    }
+    },
+    "keywords": [
+        "email",
+        "checker",
+        "address",
+        "free",
+        "domain",
+        "business",
+        "business-email",
+        "blacklist",
+        "mailbox",
+        "mail",
+        "javascript",
+        "javascript-library",
+        "js",
+        "es6",
+        "commonjs",
+        "commonjs-modules",
+        "vanilla-javascript",
+        "vanilla-js",
+        "vanillajs"
+    ]
 }
