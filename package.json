@@ -3,7 +3,7 @@
     "version": "0.2.10",
     "license": "MIT",
     "description": "isBizMail tells you whether a given email address is free (gmail.com, yahoo.es, yandex.ru etc) or not",
-    "homepage": "https://github.com/salaros/is-biz-mail",
+    "homepage": "https://github.com/salaros/is-biz-mail-js",
     "devDependencies": {
         "coveralls": "^3.0.1",
         "mocha": "^5.1.1",
