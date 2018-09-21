@@ -7,4 +7,6 @@ package-lock\.json
 \.nyc_output/
 coverage/
 
+# Node-related stuff
+npm-debug.log
 *.tgz
