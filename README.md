@@ -24,6 +24,12 @@ Detects around 2500 domains and subdomains.
 * [PHP implementation](https://github.com/salaros/is-biz-mail-php) (PHP 5.4.0+)
 * [.NET implementation](https://github.com/salaros/is-biz-mail-dotnet) (.NET Standard 2.0+)
 
+## 🟊🟊🟊 Support this project 🟊🟊🟊
+
+You can support us in a small way, please consider starring and sharing this repo! It helps us getting known and grow the community.
+
+![star us](.github/assets/star_us.gif)
+
 ## Installation
 
 You can install **isBizMail** for JavaScript via your prefered dependency manager, e.g. Yarn
