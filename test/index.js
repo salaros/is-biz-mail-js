@@ -19,6 +19,12 @@ describe('isBizMail.isFreeMailAddress', function () {
             isBizMail.isFreeMailAddress(email).should.equal(true);
         });
     });
+
+    emailSamples.pattern.forEach(function(email) {
+        it(email + ' - is matched', function () {
+            isBizMail.isFreeMailAddress(email).should.equal(true);
+        });
+    });
 });
 
 describe('isBizMail.getFreeDomains', function () {
@@ -29,6 +35,17 @@ describe('isBizMail.getFreeDomains', function () {
     var freeDomains = isBizMail.getFreeDomains();
     it(freeDomains.length + ' free mail definitions found', function () {
         freeDomains.length.should.be.above(0);
+    });
+});
+
+describe('isBizMail.getFreeDomainPatterns', function () {
+    it('isBizMail.getFreeDomainPatterns - is defined', function () {
+        ('getFreeDomainPatterns' in isBizMail).should.equal(true);
+    });
+
+    var freeDomainPatterns = isBizMail.getFreeDomainPatterns();
+    it(freeDomainPatterns.length + ' free mail pattern definitions found', function () {
+        freeDomainPatterns.length.should.be.above(0);
     });
 });
 
