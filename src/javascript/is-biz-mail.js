@@ -8,34 +8,57 @@
      */
     var isValidEmail = /^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/;
 
+    /**
+     * Checks if a given email address is free or it's a business
+     * 
+     * @param {*} email Email address
+     */
     function isFreeMailAddress(email) {
-        if (email === undefined || -1 === email.indexOf('@') || -1 !== email.indexOf('*')) {
-            throw "Please supply a valid email address";
+        if (email === undefined || 'string' !== typeof email || -1 !== email.indexOf('*')) {
+            throw new Error("Please supply a valid email address");
         }
 
         var emailDomain = (email) ? email.split('@')[1] : false;
         if (emailDomain === undefined || !(emailDomain)) {
-            throw "Please supply a valid email address";
+            throw new Error("Please supply a valid email address");
         }
 
         return freeMailDomains.some(function(freeDomain) {
             return emailDomain === freeDomain;
-        }) 
-        || freeDomainPatterns.some(function(domainPatter) {
+        }) || freeDomainPatterns.some(function(domainPatter) {
             return wildcardToRegExp(domainPatter).test(emailDomain);
         });
     }
 
     /**
-     * Creates a RegExp from the given string, converting asterisks to .* expressions,
-     * and escaping all other characters.
+     * Validates a given email address
+     * 
+     * @param {*} email Email address to validate
+     */
+    function isValid(email) {
+        if (email === undefined || 'string' !== typeof email) {
+            throw new Error("Please supply a valid email address");
+        }
+
+        email = email.toLowerCase();
+        return (isValidEmail.test(email))
+            ? !isFreeMailAddress(email)
+            : false;
+    }
+
+    /**
+     * Converts a given wildcard to a regular expression
+     * 
+     * @param {*} s Wildcard to convert regular expression
      */
     function wildcardToRegExp (s) {
         return new RegExp('^' + s.split(/\*+/).map(regExpEscape).join('.*') + '$');
     }
 
     /**
-     * RegExp-escapes all characters in the given string.
+     * Escapes a given regular expression
+     * 
+     * @param {*} s Regular expression to escape
      */
     function regExpEscape (s) {
         return s.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
@@ -43,18 +66,17 @@
 
     global.isBizMail = {
         isValid: function (email) {
-            if (undefined === email) { throw "Please supply a valid email address"; }
-            email = email.toLowerCase();
-            return (isValidEmail.test(email))
-                ? !isFreeMailAddress(email)
-                : false;
+            return isValid(email);
         },
         isFreeMailAddress: function (email) {
             return isFreeMailAddress(email);
         },
         getFreeDomains: function () {
             return freeMailDomains;
-        }
+        },
+        getFreeDomainPatterns: function () {
+            return freeDomainPatterns;
+        },
     };
 
     var freeMailDomains = [

@@ -25,6 +25,28 @@ describe('isBizMail.isFreeMailAddress', function () {
             isBizMail.isFreeMailAddress(email).should.equal(true);
         });
     });
+
+    emailSamples.invalid.forEach(function(email) {
+        it(email + ' - is invalid', function () {
+            isBizMail.isValid(email).should.equal(false);
+        });
+    });
+
+    [ 'invalid@wildcard.*', 'notAnEmail', false, null, -1, Object ].forEach(function(email) {
+        it(email + ' - throws exception', function () {
+            (function(){
+                isBizMail.isFreeMailAddress(email);
+            }).should.throw('Please supply a valid email address');
+        });
+    });
+
+    [ false, null, -1, Object ].forEach(function(email) {
+        it(email + ' - throws exception', function () {
+            (function(){
+                isBizMail.isValid(email);
+            }).should.throw('Please supply a valid email address');
+        });
+    });
 });
 
 describe('isBizMail.getFreeDomains', function () {
