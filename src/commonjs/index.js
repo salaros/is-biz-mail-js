@@ -17,7 +17,7 @@ function isFreeMailAddress(email) {
         throw new Error("Please supply a valid email address");
     }
 
-    var emailDomain = (email) ? email.split('@')[1] : false;
+    var emailDomain = email.split('@')[1];
     if (emailDomain === undefined || !(emailDomain)) {
         throw new Error("Please supply a valid email address");
     }
