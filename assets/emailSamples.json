@@ -30,10 +30,20 @@
                 "free__@hotmail.ru"
         ],
 
-        "invalid": [
+        "incomplete": [        
                 "bad__@example.*",
-                "yandex.ru",
+                "yandex.ru"
+        ],
+
+        "invalid": [
                 "bad__@-domain.com",
                 "bad__@domain"
+        ],
+        
+        "throws": [
+                false,
+                null,
+                -1,
+                {}
         ]
 }

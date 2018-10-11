@@ -26,13 +26,13 @@ describe('isBizMail.isFreeMailAddress', function () {
         });
     });
 
-    emailSamples.invalid.forEach(function(email) {
+    emailSamples.invalid.concat(emailSamples.incomplete).forEach(function(email) {
         it(email + ' - is invalid', function () {
             isBizMail.isValid(email).should.equal(false);
         });
     });
 
-    [ 'invalid@wildcard.*', 'notAnEmail', false, null, -1, Object ].forEach(function(email) {
+    emailSamples.throws.concat(emailSamples.incomplete).forEach(function(email) {
         it(email + ' - throws exception', function () {
             (function(){
                 isBizMail.isFreeMailAddress(email);
@@ -40,7 +40,7 @@ describe('isBizMail.isFreeMailAddress', function () {
         });
     });
 
-    [ false, null, -1, Object ].forEach(function(email) {
+    emailSamples.throws.forEach(function(email) {
         it(email + ' - throws exception', function () {
             (function(){
                 isBizMail.isValid(email);
