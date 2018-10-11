@@ -1,19 +1,35 @@
 language: node_js
+
 node_js:
-- '6.0'
-- '8.0'
-- '10.0'
+  - "6.0"
+  - "8.0"
+  - "10.0"
+
+# disable the default submodule logic
+git:
+  submodules: false
+
+# use sed to replace the SSH URL with the public URL, then init and update submodules
+before_install:
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
+
 before_script:
-- yarn install
+  - yarn install
+
 cache:
   directories:
-  - node_modules
+    - node_modules
+
 script:
-- npm run test
+  - npm run test
+
 after_success:
-- travis_retry npm run coverage
+  - travis_retry npm run coverage
+
 before_deploy:
-- '[[ $(grep "\"version\":" package.json | cut -d\" -f4) != $TRAVIS_TAG ]] && npm version $TRAVIS_TAG || echo "Package versions = tag"'
+  - '[[ $(grep "\"version\":" package.json | cut -d\" -f4) != $TRAVIS_TAG ]] && npm version $TRAVIS_TAG || echo "Package versions = tag"'
+
 deploy:
   provider: npm
   email: salaros@yandex.ru
