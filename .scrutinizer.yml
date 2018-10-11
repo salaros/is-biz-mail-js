@@ -6,7 +6,7 @@ filter:
     - "build/"
     - "assets/"
     - "test/"
-    - "coverage/"
+    - "src/javascript"
 
   dependency_paths:
     - "node_modules/"
@@ -17,18 +17,19 @@ build:
       project_setup:
         override: true
         before:
-          - yarn install
           - make all
       tests:
         override:
           - js-scrutinizer-run
+
       cache:
         directories:
           - ~/.npm
 
-  tests:
-    override:
-      - command: "./node_modules/.bin/nyc --reporter=clover --reporter=text ./node_modules/mocha/bin/mocha"
-        coverage:
-          file: "coverage/clover.xml"
-          format: "clover"
+    coverage:
+      tests:
+        override:
+          - command: "./node_modules/.bin/nyc --reporter=clover --reporter=text ./node_modules/mocha/bin/mocha"
+            coverage:
+              file: "coverage/clover.xml"
+              format: "clover"
