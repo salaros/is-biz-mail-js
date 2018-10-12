@@ -22,21 +22,38 @@ build:
         override:
           - js-scrutinizer-run
 
-      cache:
-        directories:
-          - ~/.npm
-
     node6:
       environment:
         node: 6.11.0
+      project_setup:
+        override: true
+        before:
+          - npm install -g mocha
+      tests:
+        override:
+          - mocha
 
     node8:
       environment:
         node: 8.12.0
+      project_setup:
+        override: true
+        before:
+          - npm install -g mocha
+      tests:
+        override:
+          - mocha
 
     node10:
       environment:
         node: 10.12.0
+      project_setup:
+        override: true
+        before:
+          - npm install -g mocha
+      tests:
+        override:
+          - mocha
 
     coverage:
       tests:
