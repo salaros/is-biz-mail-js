@@ -26,6 +26,18 @@ build:
         directories:
           - ~/.npm
 
+    node6:
+      environment:
+        node: 6.11.0
+
+    node8:
+      environment:
+        node: 8.12.0
+
+    node10:
+      environment:
+        node: 10.12.0
+
     coverage:
       tests:
         override:
