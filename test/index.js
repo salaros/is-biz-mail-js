@@ -22,6 +22,13 @@ describe('isBizMail.isFreeMailAddress', function () {
         });
     });
 
+    // Test if .isFreeMailAddress() validates free emails
+    emailSamples.disposable.forEach(function(email) {
+        it(email + ' - is disposable therefore free', function () {
+            isBizMail.isFreeMailAddress(email).should.equal(true);
+        });
+    });    
+
     // Test if .isFreeMailAddress() validates emails using patterns
     emailSamples.pattern.forEach(function(email) {
         it(email + ' - is matched', function () {
