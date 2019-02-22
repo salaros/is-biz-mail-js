@@ -14,11 +14,9 @@ Business Email Checker
 [![Donate Paypal](https://img.shields.io/badge/donate-PayPal-009cde.svg)](https://paypal.me/salarosIT)
 [![Donate Liberapay](https://img.shields.io/badge/donate-Liberapay-ffc600.svg)](https://liberapay.com/salaros/)
 
-**isBizMail** tells you whether a given email address is free (gmail.com, yahoo.es, yandex.ru etc) or not.
-The list of emails used by **isBizMail** is taken from [here](http://svn.apache.org/repos/asf/spamassassin/trunk/rules/20_freemail_domains.cf)¹.
-Detects around 2500 domains and subdomains.
+**isBizMail** tells you whether a given email address is free (gmail.com, yahoo.es, yandex.ru etc) or not. Detects around 4-5k domains and sub-domains.
 
-1) *All credits for the list itself go to [SpamAssasin](https://spamassassin.apache.org/) authors and contributors*
+Under the hood **isBizMail** mostly relies on 3-rd party domain lists created by people and organizations mentioned in [Credits](#Credits) section.
 
 ## Looking for PHP, .NET etc?
 
@@ -82,3 +80,9 @@ or via NPM
 npm install
 npm test    # or ./node_modules/.bin/mocha
 ```
+
+## Credits
+
+* SpamAssasin's ['freemail domains'](https://raw.githubusercontent.com/apache/spamassassin/trunk/rules/20_freemail_domains.cf) filter
+* SpamAssasin's ['mailcom domains'](https://raw.githubusercontent.com/apache/spamassassin/trunk/rules/20_freemail_domains.cf) filter
+* Matthieu Moquet's [list of disposable emails](https://raw.githubusercontent.com/MattKetmo/EmailChecker/master/res/throwaway_domains.txt).
