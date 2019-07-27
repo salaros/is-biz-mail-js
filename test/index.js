@@ -22,7 +22,7 @@ describe('isBizMail.isFreeMailAddress', function () {
         });
     });
 
-    // Test if .isFreeMailAddress() validates free emails
+    // Test if .isFreeMailAddress() validates disposable emails
     emailSamples.disposable.forEach(function(email) {
         it(email + ' - is disposable therefore free', function () {
             isBizMail.isFreeMailAddress(email).should.equal(true);
