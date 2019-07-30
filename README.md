@@ -1,14 +1,19 @@
 Business Email Checker
+======================
 [![Build Status](https://travis-ci.org/salaros/is-biz-mail-js.svg?branch=master)](https://travis-ci.org/salaros/is-biz-mail-js)
 [![Coverage Status](https://coveralls.io/repos/github/salaros/is-biz-mail-js/badge.svg?branch=master)](https://coveralls.io/github/salaros/is-biz-mail-js?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/salaros/is-biz-mail-js/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/salaros/is-biz-mail-js/?branch=master)
-======================
+[![Inline docs](http://inch-ci.org/github/salaros/is-biz-mail-js.svg?branch=master)](http://inch-ci.org/github/salaros/is-biz-mail-js)
+[![Known Vulnerabilities](https://snyk.io//test/github/salaros/is-biz-mail-js/badge.svg?targetFile=package.json)](https://snyk.io//test/github/salaros/is-biz-mail-js?targetFile=package.json)
+![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/salaros/is-biz-mail-js)
+
+
 [![License](https://img.shields.io/github/license/salaros/is-biz-mail-js.svg)](https://github.com/salaros/is-biz-mail-js/blob/master/LICENSE)
 ![js type](https://img.shields.io/badge/type-Vanilla%20|%20CommonJS-589594.svg)
 [![npm](https://img.shields.io/npm/v/is-biz-mail.svg?colorB=cb3837)](https://www.npmjs.com/package/is-biz-mail)
 ![npm](https://img.shields.io/npm/dt/is-biz-mail.svg)
 ![npm](https://img.shields.io/npm/dw/is-biz-mail.svg)
 ![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/is-biz-mail.svg)
+
 
 [![Donate Patreon](https://img.shields.io/badge/donate-Patreon-f96854.svg)](https://www.patreon.com/salaros/)
 [![Donate Paypal](https://img.shields.io/badge/donate-PayPal-009cde.svg)](https://paypal.me/salarosIT)
