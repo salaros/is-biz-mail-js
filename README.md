@@ -53,20 +53,30 @@ npm i is-biz-mail
 One of examples of vanilla JavaScript usage might be a simple HTML page:
 
 ```html
-<script src="path/to/src/is-biz-mail.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/is-biz-mail/dist/is-biz-mail.js"></script>
 <script>
     var result = isBizMail.isValid('foo@nodejs.onmicrosoft.com"');
     console.log([email, result]);   // (2) ["foo@nodejs.onmicrosoft.com", false]
 </script>
 ```
 
-## [CommonJS](http://requirejs.org/docs/commonjs.html) / ES5 / ES6 module, Node.js etc
+## ES5 / ES6 module
+
+```js
+import isBizMail from 'is-biz-mail';
+
+let result = isBizMail.isFreeMailAddress('es6@gmail.com');
+console.log([email, result]);   // (2) ["es6@gmail.com", true]
+// ...
+```
+
+## [CommonJS](http://requirejs.org/docs/commonjs.html), Node.js etc
 
 ```js
 const isBizMail = require('is-biz-mail');
 
-let result = isBizMail.isFreeMailAddress('es6@live.com');
-console.log([email, result]);   // (2) ["es6@live.com", true]
+let result = isBizMail.isFreeMailAddress('cjs@yahoo.com');
+console.log([email, result]);   // (2) ["cjs@yahoo.com", true]
 // ...
 ```
 
