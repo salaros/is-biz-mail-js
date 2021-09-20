@@ -53,7 +53,7 @@ npm i is-biz-mail
 One of examples of vanilla JavaScript usage might be a simple HTML page:
 
 ```html
-<script src="path/to/src/javascript/is-biz-mail.js"></script>
+<script src="path/to/src/is-biz-mail.js"></script>
 <script>
     var result = isBizMail.isValid('foo@nodejs.onmicrosoft.com"');
     console.log([email, result]);   // (2) ["foo@nodejs.onmicrosoft.com", false]

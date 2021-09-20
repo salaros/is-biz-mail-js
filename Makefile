@@ -3,11 +3,12 @@ DOMAINS_LIST_PLUS	:= ./assets/emails-not-in-spamassassin.txt
 DOMAINS_COMMENT		:= free email providers
 DOMAINSW_COMMENT	:= free email patterns
 
-COMMON_JS_SRC		:= ./src/commonjs/index.js
-JS_SRC 				:= ./src/javascript/is-biz-mail.js
-JS_TEMP_SRC			:= ./build/freemail_domains.js
+COMMON_JS_SRC		:= ./src/index.cjs
+COMMON_JS_OUT		:= ./dist/index.cjs
+JS_OUT 				:= ./dist/is-biz-mail.js
+ES_OUT 				:= ./dist/index.js
 JS_CLOSURE 			:= (function(global){
-JS_CLOSURE_END 		:= })((
+JS_CLOSURE_END 		:= })((typeof window === 'undefined') ? global : window);
 
 GIT_TAG				:= $(shell git describe --tags `git rev-list --tags --max-count=1`)
 
@@ -44,14 +45,20 @@ commonjs: download
 	@sed '/$(DOMAINSW_COMMENT) start/,/$(DOMAINSW_COMMENT) end/{//!d}' -i $(COMMON_JS_SRC)
 	@sed '/$(DOMAINS_COMMENT) start/ r $(DOMAINS_LIST)' -i $(COMMON_JS_SRC)
 	@sed '/$(DOMAINSW_COMMENT) start/ r $(DOMAINS_LIST).wildcard' -i $(COMMON_JS_SRC)
-	@sed 's/^"/    "/' -i $(COMMON_JS_SRC)
+	@mkdir -pv ./dist/
+	@sed 's/^"/    "/' $(COMMON_JS_SRC) > $(COMMON_JS_OUT)
 
-javascript: commonjs
-	@sed '/$(JS_CLOSURE)/,/$(JS_CLOSURE_END)/{//!d}' -i $(JS_SRC)
-	@sed 's/^/    /' $(COMMON_JS_SRC) > $(JS_TEMP_SRC)
-	@sed 's/^    $$//' -i $(JS_TEMP_SRC)
-	@sed '/$(JS_CLOSURE)/r $(JS_TEMP_SRC)' -i $(JS_SRC)
-	@sed 's/module.exports/global.isBizMail/g' -i $(JS_SRC)
+es: commonjs
+	@sed 's/module.exports =/export default/g' $(COMMON_JS_OUT) > $(ES_OUT)
+	@sed 's/var free/const free/g' -i $(ES_OUT)
+	@sed 's/var isValid/const isValid/g' -i $(ES_OUT)
+	@sed 's/var /let /g' -i $(ES_OUT)
+
+javascript: es
+	@echo "$(JS_CLOSURE)" > $(JS_OUT)
+	@sed 's/^/    /' $(COMMON_JS_SRC) >> $(JS_OUT)
+	@sed 's/module.exports/global.isBizMail/g' -i $(JS_OUT)
+	@echo "$(JS_CLOSURE_END)" >> $(JS_OUT)
 
 tests:
 	@npm test

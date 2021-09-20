@@ -1,85 +1,71 @@
-/**
- * isBizMail tells you whether a given email address
- * is free e.g. gmail.com, yahoo.es, yandex.ru etc or not.
- * The list of emails used by isBizMail is taken from here:
- * http://svn.apache.org/repos/asf/spamassassin/trunk/rules/20_freemail_domains.cf
- * All credits for the list itself go to SpamAssasin authors and contributors
- */
-var isValidEmail = /^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/;
-
-/**
- * Checks if a given email address is free or it's a business
- * 
- * @param {*} email Email address
- */
-function isFreeMailAddress(email) {
-    if (email === undefined || 'string' !== typeof email || -1 !== email.indexOf('*')) {
-        throw new Error("Please supply a valid email address");
+(function(global){
+    /**
+     * isBizMail tells you whether a given email address
+     * is free e.g. gmail.com, yahoo.es, yandex.ru etc or not.
+     * The list of emails used by isBizMail is taken from here:
+     * http://svn.apache.org/repos/asf/spamassassin/trunk/rules/20_freemail_domains.cf
+     * All credits for the list itself go to SpamAssasin authors and contributors
+     */
+    var isValidEmail = /^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/;
+    
+    /**
+     * Checks if a given email address is free or it's a business
+     * 
+     * @param {*} email Email address
+     */
+    function isFreeMailAddress(email) {
+        if (email === undefined || 'string' !== typeof email || -1 !== email.indexOf('*')) {
+            throw new Error("Please supply a valid email address");
+        }
+    
+        var emailDomain = email.split('@')[1];
+        if (emailDomain === undefined || !(emailDomain)) {
+            throw new Error("Please supply a valid email address");
+        }
+    
+        return freeMailDomains.some(function(freeDomain) {
+            return emailDomain === freeDomain;
+        }) || freeDomainPatterns.some(function(domainPatter) {
+            return wildcardToRegExp(domainPatter).test(emailDomain);
+        });
     }
-
-    var emailDomain = email.split('@')[1];
-    if (emailDomain === undefined || !(emailDomain)) {
-        throw new Error("Please supply a valid email address");
+    
+    /**
+     * Validates a given email address
+     * 
+     * @param {*} email Email address to validate
+     */
+    function isValid(email) {
+        if (email === undefined || 'string' !== typeof email) {
+            throw new Error("Please supply a valid email address");
+        }
+    
+        email = email.toLowerCase();
+        return (isValidEmail.test(email))
+            ? !isFreeMailAddress(email)
+            : false;
     }
-
-    return freeMailDomains.some(function(freeDomain) {
-        return emailDomain === freeDomain;
-    }) || freeDomainPatterns.some(function(domainPatter) {
-        return wildcardToRegExp(domainPatter).test(emailDomain);
-    });
-}
-
-/**
- * Validates a given email address
- * 
- * @param {*} email Email address to validate
- */
-function isValid(email) {
-    if (email === undefined || 'string' !== typeof email) {
-        throw new Error("Please supply a valid email address");
+    
+    /**
+     * Converts a given wildcard to a regular expression
+     * 
+     * @param {*} s Wildcard to convert regular expression
+     */
+    function wildcardToRegExp (s) {
+        return new RegExp('^' + s.split(/\*+/).map(regExpEscape).join('.*') + '$');
     }
-
-    email = email.toLowerCase();
-    return (isValidEmail.test(email))
-        ? !isFreeMailAddress(email)
-        : false;
-}
-
-/**
- * Converts a given wildcard to a regular expression
- * 
- * @param {*} s Wildcard to convert regular expression
- */
-function wildcardToRegExp (s) {
-    return new RegExp('^' + s.split(/\*+/).map(regExpEscape).join('.*') + '$');
-}
-
-/**
- * Escapes a given regular expression
- * 
- * @param {*} s Regular expression to escape
- */
-function regExpEscape (s) {
-    return s.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
-}
-
-module.exports = {
-    isValid: function (email) {
-        return isValid(email);
-    },
-    isFreeMailAddress: function (email) {
-        return isFreeMailAddress(email);
-    },
-    getFreeDomains: function () {
-        return freeMailDomains;
-    },
-    getFreeDomainPatterns: function () {
-        return freeDomainPatterns;
-    },
-};
-
-var freeMailDomains = [
-    // free email providers start
+    
+    /**
+     * Escapes a given regular expression
+     * 
+     * @param {*} s Regular expression to escape
+     */
+    function regExpEscape (s) {
+        return s.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
+    }
+    
+    var freeMailDomains = [
+        // free email providers start
     "0-mail.com", "020.co.uk", "027168.com", "0815.ru", "0815.ru0clickemail.com", "0815.ry",
     "0815.su", "0845.ru", "0clickemail.com", "0wnd.net", "0wnd.org", "0x207.info",
     "1-8.biz", "100likers.com", "10mail.com", "10mail.org", "10minut.com.pl", "10minutemail.cf",
@@ -909,15 +895,31 @@ var freeMailDomains = [
     "zoznam.sk", "zp.ua", "zu-geil.de", "zubee.com", "zumpul.com", "zuvio.com",
     "zwallet.com", "zworg.com", "zxcv.com", "zxcvbnm.com", "zybermail.com", "zzn.com",
     "zzz.com",
-    // free email providers end
-];
-
-var freeDomainPatterns = [
-    // free email patterns start
+        // free email providers end
+    ];
+    
+    var freeDomainPatterns = [
+        // free email patterns start
     "aol.*", "aol.co*.*", "*.att.ne.jp", "excite.*", "excite.co*.*", "fastmail.*",
     "fastmail.co*.*", "freemail.*", "freemail.*.*", "gmx.*", "hotmail.*", "hotmail.co*.*",
     "live.*", "lycos.*", "lycos.co*.*", "mail2*.com", "ms*.hinet.net", "outlook.*",
     "strompost.*", "tiscali.*", "tiscali.co*.*", "vodafone.*", "xemail.*", "yahoo.*",
     "yahoo.co*.*", "yandex.*", "runbox.*", "*.onmicrosoft.com",
-    // free email patterns end
-];
+        // free email patterns end
+    ];
+    
+    global.isBizMail = {
+        isValid: function (email) {
+            return isValid(email);
+        },
+        isFreeMailAddress: function (email) {
+            return isFreeMailAddress(email);
+        },
+        getFreeDomains: function () {
+            return freeMailDomains;
+        },
+        getFreeDomainPatterns: function () {
+            return freeDomainPatterns;
+        },
+    };
+})((typeof window === 'undefined') ? global : window);

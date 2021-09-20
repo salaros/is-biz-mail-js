@@ -1,16 +1,21 @@
 {
     "name": "is-biz-mail",
-    "version": "0.2.13",
+    "type": "module",
+    "version": "0.3.1",
     "license": "MIT",
     "description": "isBizMail tells you whether a given email address is free (gmail.com, yahoo.es, yandex.ru etc) or not",
     "homepage": "https://github.com/salaros/is-biz-mail-js",
     "devDependencies": {
-        "coveralls": "^3.0.2",
-        "mocha": "^5.2.0",
-        "nyc": "^14.1.1",
+        "coveralls": "^3.1.1",
+        "mocha": "^9.1.1",
+        "nyc": "^15.1.0",
         "should": "^13.2.3"
     },
-    "main": "src/commonjs",
+    "main": "./dist/index.cjs",
+    "exports": {
+        "import": "./dist/index.js",
+        "require": "./dist/index.cjs"
+    },
     "scripts": {
         "test": "./node_modules/.bin/nyc --reporter=html --reporter=text ./node_modules/mocha/bin/mocha",
         "coverage": "./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls"
@@ -22,18 +27,24 @@
         "free",
         "domain",
         "business",
-        "business-email",
         "blacklist",
+        "whitelist",
         "mailbox",
         "mail",
+        "freemail",
+        "domain",
+        "disposable",
+        "mailbox",
         "javascript",
         "javascript-library",
         "js",
+        "es",
+        "es5",
         "es6",
+        "module",
         "commonjs",
-        "commonjs-modules",
-        "vanilla-javascript",
-        "vanilla-js",
+        "javascript",
+        "vanilla",
         "vanillajs"
     ]
 }
