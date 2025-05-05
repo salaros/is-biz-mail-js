@@ -3,18 +3,13 @@ DOMAINS_LIST_PLUS	:= ./assets/emails-not-in-spamassassin.txt
 DOMAINS_COMMENT		:= free email providers
 DOMAINSW_COMMENT	:= free email patterns
 
-COMMON_JS_SRC		:= ./src/index.cjs
-COMMON_JS_OUT		:= ./dist/index.cjs
-JS_OUT 				:= ./dist/is-biz-mail.js
-ES_OUT 				:= ./dist/index.js
-JS_CLOSURE 			:= (function(global){
-JS_CLOSURE_END 		:= })((typeof window === 'undefined') ? global : window);
+ES_OUT 				:= ./lib/main.js
 
 GIT_TAG				:= $(shell git describe --tags `git rev-list --tags --max-count=1`)
 
 .PHONY: all
 
-all: javascript
+all: update
 
 clean: prepare
 	@find ./build -mindepth 1 -delete
@@ -36,29 +31,16 @@ download: prepare
 	@sed '$$!{:a;N;s/\r/ /;ta}' -i $(DOMAINS_LIST)* # replace all new lines with a single whitespace
 	@sed '$$!{:a;N;s/\n/ /;ta}' -i $(DOMAINS_LIST)* # replace all new lines with a single whitespace
 	@sed 's/ /\n/6;P;D' -i $(DOMAINS_LIST)* # Split a single line in multiple rows each containing maximum 6 domains
-	@sed -e ':a' -e 'N' -e '$$!ba' -e 's/\n/",\n"/g' -i $(DOMAINS_LIST)*
+	@sed -e 's/^[[:space:]]*//g' -i $(DOMAINS_LIST)*
 	@sed -e 's/ /", "/g' -i $(DOMAINS_LIST)*
+	@sed -e ':a' -e 'N' -e '$$!ba' -e 's/\n/",\n"/g' -i $(DOMAINS_LIST)*
 	@find ./build -type f | xargs -I{} sh -c 'echo "\"$$(cat $$1)\"," > $$1' -- {}
 
-commonjs: download
-	@sed '/$(DOMAINS_COMMENT) start/,/$(DOMAINS_COMMENT) end/{//!d}' -i $(COMMON_JS_SRC)
-	@sed '/$(DOMAINSW_COMMENT) start/,/$(DOMAINSW_COMMENT) end/{//!d}' -i $(COMMON_JS_SRC)
-	@sed '/$(DOMAINS_COMMENT) start/ r $(DOMAINS_LIST)' -i $(COMMON_JS_SRC)
-	@sed '/$(DOMAINSW_COMMENT) start/ r $(DOMAINS_LIST).wildcard' -i $(COMMON_JS_SRC)
-	@mkdir -pv ./dist/
-	@sed 's/^"/    "/' $(COMMON_JS_SRC) > $(COMMON_JS_OUT)
-
-es: commonjs
-	@sed 's/module.exports =/export default/g' $(COMMON_JS_OUT) > $(ES_OUT)
-	@sed 's/var free/const free/g' -i $(ES_OUT)
-	@sed 's/var isValid/const isValid/g' -i $(ES_OUT)
-	@sed 's/var /let /g' -i $(ES_OUT)
-
-javascript: es
-	@echo "$(JS_CLOSURE)" > $(JS_OUT)
-	@sed 's/^/    /' $(COMMON_JS_SRC) >> $(JS_OUT)
-	@sed 's/module.exports/global.isBizMail/g' -i $(JS_OUT)
-	@echo "$(JS_CLOSURE_END)" >> $(JS_OUT)
+update: download
+	@sed '/$(DOMAINS_COMMENT) start/,/$(DOMAINS_COMMENT) end/{//!d}' -i $(ES_OUT)
+	@sed '/$(DOMAINSW_COMMENT) start/,/$(DOMAINSW_COMMENT) end/{//!d}' -i $(ES_OUT)
+	@sed '/$(DOMAINS_COMMENT) start/ r $(DOMAINS_LIST)' -i $(ES_OUT)
+	@sed '/$(DOMAINSW_COMMENT) start/ r $(DOMAINS_LIST).wildcard' -i $(ES_OUT)
 
 tests:
 	@npm test

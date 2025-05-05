@@ -5,8 +5,7 @@ filter:
   excluded_paths:
     - "build/"
     - "assets/"
-    - "test/"
-    - "src/javascript"
+    - "__tests__/"
 
   dependency_paths:
     - "node_modules/"

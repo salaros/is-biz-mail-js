@@ -3,10 +3,13 @@ build/
 
 # JavaScript
 node_modules/
-package-lock\.json
 \.nyc_output/
 coverage/
 
 # Node-related stuff
 npm-debug.log
 *.tgz
+
+# Legacy package managers
+yarn.lock
+package-lock.json
