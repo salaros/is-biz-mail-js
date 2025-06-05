@@ -1,44 +1,45 @@
-const isBizMail = require('../dist/index.umd.cjs');
-const emailSamples = require('../assets/email-test-samples.json');
+import IsBizMail from '../dist/isBizMail';
+const isBizMail = new IsBizMail();
+import { business, free, disposable, pattern, throws, incomplete, invalid } from '../assets/email-test-samples.json';
 
-describe('isBizMail.isFreeMailAddress', () => {
-    it('isBizMail.isFreeMailAddress - is defined', () => {
-        expect(('isFreeMailAddress' in isBizMail)).toBe(true);
+describe('isBizMail.isFree', () => {
+    it('isBizMail.isFree - is defined', () => {
+        expect(('isFree' in isBizMail)).toBe(true);
     });
     
-    // Test if .isFreeMailAddress() fails to validate business emails
-    emailSamples.business.forEach(function(email) {
+    // Test if .isFree() fails to validate business emails
+    business.forEach(function(email) {
         it(email + ' - not free (business)', () => {
-            expect(isBizMail.isFreeMailAddress(email)).toBe(false);
+            expect(isBizMail.isBusiness(email)).toBe(true);
         });
     });
 
-    // Test if .isFreeMailAddress() validates free emails
-    emailSamples.free.forEach(function(email) {
+    // Test if .isFree() validates free emails
+    free.forEach(function(email) {
         it(email + ' - is free', () => {
-            expect(isBizMail.isFreeMailAddress(email)).toBe(true);
+            expect(isBizMail.isValidFree(email)).toBe(true);
         });
     });
 
-    // Test if .isFreeMailAddress() validates disposable emails
-    emailSamples.disposable.forEach(function(email) {
+    // Test if .isFree() validates disposable emails
+    disposable.forEach(function(email) {
         it(email + ' - is disposable therefore free', () => {
-            expect(isBizMail.isFreeMailAddress(email)).toBe(true);
+            expect(isBizMail.isFree(email)).toBe(true);
         });
     });    
 
-    // Test if .isFreeMailAddress() validates emails using patterns
-    emailSamples.pattern.forEach(function(email) {
+    // Test if .isFree() validates emails using patterns
+    pattern.forEach(function(email) {
         it(email + ' - is matched', () => {
-            expect(isBizMail.isFreeMailAddress(email)).toBe(true);
+            expect(isBizMail.isFree(email)).toBe(true);
         });
     });
 
-    // Test .isValid() method's exceptions
-    emailSamples.throws.concat(emailSamples.incomplete).forEach(function(email) {
+    // Test .isValidBusiness() method's exceptions
+    throws.forEach(function(email) {
         it(email + ' - throws exception', () => {
             expect((function() {
-                isBizMail.isFreeMailAddress(email);
+                isBizMail.isFree(email);
             })).toThrow('Please supply a valid email address');
         });
     });
@@ -76,39 +77,39 @@ describe('isBizMail.getFreeDomainPatterns', () => {
 });
 
 /**
- * Test if .isValid() returns a non-empty list of domain patterns
+ * Test if .isValidBusiness() returns a non-empty list of domain patterns
  */
 describe('isBizMail.isValid', () => {
     it('isBizMail.isValid - is defined', () => {
         expect(('isValid' in isBizMail)).toBe(true);
     });
 
-    // .isValid() should validate all business emails
-    emailSamples.business.forEach(function(email) {
+    // .isValidBusiness() should validate all business emails
+    business.forEach(function(email) {
         it(email + ' - is valid and not free (business)', () => {
-            expect(isBizMail.isValid(email)).toBe(true);
+            expect(isBizMail.isValidBusiness(email)).toBe(true);
         });
     });
 
-    // Test if .isValid() fails to validate free emails
-    emailSamples.free.forEach(function(email) {
+    // Test if .isValidBusiness() fails to validate free emails
+    free.forEach(function(email) {
         it(email + ' - is valid and free', () => {
-            expect(isBizMail.isValid(email)).toBe(false);
+            expect(isBizMail.isValidBusiness(email)).toBe(false);
         });
     });
     
-    // Test if .isValid() fails to validate incomplete emails
-    emailSamples.invalid.concat(emailSamples.incomplete).forEach(function(email) {
+    // Test if .isValidBusiness() fails to validate incomplete emails
+    invalid.concat(incomplete).forEach(function(email) {
         it(email + ' - is invalid', () => {
-            expect(isBizMail.isValid(email)).toBe(false);
+            expect(isBizMail.isValidBusiness(email)).toBe(false);
         });
     });
 
-    // Test .isValid() method's exceptions
-    emailSamples.throws.forEach(function(email) {
+    // Test .isValidBusiness() method's exceptions
+    throws.forEach(function(email) {
         it(email + ' - throws exception', () => {
             expect((function() {
-                isBizMail.isValid(email);
+                isBizMail.isValidFree(email);
             })).toThrow('Please supply a valid email address');
         });
     });

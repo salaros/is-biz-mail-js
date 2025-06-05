@@ -1,4 +1,5 @@
-const isBizMail = require('../dist/index.umd.cjs');
+import IsBizMail from '../dist/isBizMail';
+const isBizMail = new IsBizMail();
 
 /**
  * Test if .getFreeDomains() returns a non-empty list of domains

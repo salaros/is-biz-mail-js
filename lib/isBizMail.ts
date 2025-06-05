@@ -5,66 +5,33 @@
  * http://svn.apache.org/repos/asf/spamassassin/trunk/rules/20_freemail_domains.cf
  * All credits for the list itself go to SpamAssasin authors and contributors
  */
-var isValidEmail = /^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/;
+export default class IsBizMail {
 
-/**
- * Checks if a given email address is free or it's a business
- * 
- * @param {*} email Email address
- */
-function isFreeMailAddress(email) {
-    if (email === undefined || 'string' !== typeof email || -1 !== email.indexOf('*')) {
-        throw new Error("Please supply a valid email address");
-    }
+    private _domainRegex: RegExp;
+    private _emailSimpleRegex: RegExp;
+    private _emailStrictRegex: RegExp;
 
-    var emailDomain = email.split('@')[1];
-    if (emailDomain === undefined || !(emailDomain)) {
-        throw new Error("Please supply a valid email address");
-    }
+    private _freeDomains: string[];
 
-    return freeMailDomains.some(function(freeDomain) {
-        return emailDomain === freeDomain;
-    }) || freeDomainPatterns.some(function(domainPatter) {
-        return wildcardToRegExp(domainPatter).test(emailDomain);
-    });
-}
+    private _freeDomainPatterns: string[];
 
-/**
- * Validates a given email address
- * 
- * @param {*} email Email address to validate
- */
-function isValid(email) {
-    if (email === undefined || 'string' !== typeof email) {
-        throw new Error("Please supply a valid email address");
-    }
+    constructor() {
+        this._domainRegex = /^(xn--+?)?((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+((xn--[0-9]+)?[a-z]){2,63}$/i;
+        this._emailStrictRegex = /^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/i;
+        this._emailSimpleRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
+        
+        this._freeDomainPatterns = [
+// free email patterns start
+"aol.*", "aol.co*.*", "*.att.ne.jp", "excite.*", "excite.co*.*", "fastmail.*",
+"fastmail.co*.*", "*.free.hr", "freemail.*", "freemail.*.*", "gmx.*", "hotmail.*",
+"hotmail.co*.*", "live.*", "lycos.*", "lycos.co*.*", "mail2*.com", "ms*.hinet.net",
+"outlook.*", "*.rr.com", "strompost.*", "tiscali.*", "tiscali.co*.*", "xemail.*",
+"yahoo.*", "yahoo.co*.*", "yandex.*", "runbox.*", "*.onmicrosoft.com", "*.test-google-a.com",
+// free email patterns end
+        ];
 
-    email = email.toLowerCase();
-    return (isValidEmail.test(email))
-        ? !isFreeMailAddress(email)
-        : false;
-}
-
-/**
- * Converts a given wildcard to a regular expression
- * 
- * @param {*} s Wildcard to convert regular expression
- */
-function wildcardToRegExp (s) {
-    return new RegExp('^' + s.split(/\*+/).map(regExpEscape).join('.*') + '$');
-}
-
-/**
- * Escapes a given regular expression
- * 
- * @param {*} s Regular expression to escape
- */
-function regExpEscape (s) {
-    return s.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
-}
-
-var freeMailDomains = [
-    // free email providers start
+        this._freeDomains = [
+// free email providers start
 "020.co.uk", "027168.com", "027168.com", "0815.ru", "0815.ry", "0815.su",
 "0815.su", "0845.ru", "0clickemail.com", "0-mail.com", "0-mail.com", "0mixmail.info",
 "0sg.net", "0wnd.net", "0wnd.org", "0x207.info", "100likers.com", "10mail.com",
@@ -1705,25 +1672,107 @@ var freeMailDomains = [
 "zxcvbnm.com", "zxcvbnm.com", "zxcv.com", "zxcv.com", "zybermail.com", "zybermail.com",
 "zydecofan.com", "zzn.com", "zzn.com", "zzom.co.uk", "zzz.com", "zzz.com",
 "zzz.pl",
-    // free email providers end
-];
+// free email providers end
+        ];
+    }
 
-var freeDomainPatterns = [
-    // free email patterns start
-"aol.*", "aol.co*.*", "*.att.ne.jp", "excite.*", "excite.co*.*", "fastmail.*",
-"fastmail.co*.*", "*.free.hr", "freemail.*", "freemail.*.*", "gmx.*", "hotmail.*",
-"hotmail.co*.*", "live.*", "lycos.*", "lycos.co*.*", "mail2*.com", "ms*.hinet.net",
-"outlook.*", "*.rr.com", "strompost.*", "tiscali.*", "tiscali.co*.*", "xemail.*",
-"yahoo.*", "yahoo.co*.*", "yandex.*", "runbox.*", "*.onmicrosoft.com", "*.test-google-a.com",
-    // free email patterns end
-];
+    /**
+     * Validates a given email address and checks if it's not an actual non-free, business address (e.g. @wikimedia.org)
+     * @param {*} email Email address
+     */
+    public isBusiness(email: string): boolean {
+        return !this.isFree(email);
+    }
 
-function getFreeDomains () {
-    return freeMailDomains;
+    /**
+     * Checks if a given email address is free, non-business email address (e.g. Gmail, Yahoo etc)
+     * 
+     * @param {*} email Email address
+     */
+    public isFree(email: string): boolean {
+        if (email === undefined || 'string' !== typeof email || -1 !== email.indexOf('*')) {
+            throw new Error("Please supply a valid email address");
+        }
+
+        email = email.toLowerCase();
+
+        var emailDomain = email.split('@')[1];
+        if (emailDomain === undefined || 'string' !== typeof emailDomain || !this._domainRegex.test(emailDomain) || !this._emailSimpleRegex.test(email)) {
+            return false;
+        }
+
+        return this._freeDomains.some(function(freeDomain) {
+            return emailDomain === freeDomain;
+        }) || this._freeDomainPatterns.some(function(domainPatter) {
+            return IsBizMail.wildcardToRegExp(domainPatter).test(emailDomain);
+        });
+    }
+
+    /**
+     * DEPRECATED: Validates a given email address and checks if it's not an actual non-free, business address
+     * @param {*} email Email address to validate
+     */
+    public isValidBusiness(email: string): boolean {
+        if (email === undefined || 'string' !== typeof email) {
+            throw new Error("Please supply a valid email address");
+        }
+
+        return this._emailStrictRegex.test(email) && !this.isFree(email);
+    }
+
+    /**
+     * DEPRECATED: Validates a given email address and checks if a given email address is free, non-business email address (e.g. Gmail, Yahoo etc)
+     * @param {*} email Email address to validate
+     */
+    public isValidFree(email: string): boolean {
+        if (email === undefined || 'string' !== typeof email) {
+            throw new Error("Please supply a valid email address");
+        }
+
+        return this._emailStrictRegex.test(email) && this.isFree(email);
+    }
+
+    /**
+     * Validates a given email address first and then checks if it's not an actual non-free, business address
+     * @deprecated This method is there for backwards compatibility, use 'isValidBusinessAddress'
+     * @param {*} email Email address to validate
+     */
+    public isValid(email: string): boolean {
+        return this.isValidBusiness(email);
+    }
+
+    /**
+     * Checks if a given email address is free, non-business email address (e.g. Gmail, Yahoo etc)
+     * @deprecated This method is there for backwards compatibility, use 'isFreeAddress'
+     * @param {*} email Email address
+     */
+    public isFreeMailAddress(email: string): boolean {
+        return this.isFree(email);
+    }
+
+    /**
+     * Converts a given wildcard to a regular expression
+     * 
+     * @param {*} s Wildcard to convert regular expression
+     */
+    private static wildcardToRegExp (wildcard: string) {
+        return new RegExp('^' + wildcard.split(/\*+/).map(IsBizMail.regExpEscape).join('.*') + '$');
+    }
+
+    /**
+     * Escapes a given regular expression
+     * 
+     * @param {*} s Regular expression to escape
+     */
+    private static regExpEscape (regex: string) {
+        return regex.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
+    }
+
+    public getFreeDomains(): string[] {
+        return this._freeDomains;
+    }
+
+    public getFreeDomainPatterns(): string[] {
+        return this._freeDomainPatterns;
+    }
 }
-
-function getFreeDomainPatterns () {
-    return freeDomainPatterns;
-}
-
-export { isValid, isFreeMailAddress, getFreeDomains, getFreeDomainPatterns };

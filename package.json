@@ -1,25 +1,38 @@
 {
     "name": "@salaros/is-biz-mail",
     "type": "module",
-    "version": "0.4.0-beta-2",
+    "version": "0.4.4",
     "license": "MIT",
     "description": "isBizMail tells you whether a given email address is free (gmail.com, yahoo.es, yandex.ru etc) or not",
     "homepage": "https://github.com/salaros/is-biz-mail-js",
+    "dependencies": {},
     "devDependencies": {
+        "@babel/preset-env": "^7.27.2",
+        "@babel/preset-typescript": "^7.27.1",
+        "@jest/globals": "29.7.0",
+        "babel-jest": "29.7.0",
         "coveralls-next": "^4.2.1",
         "jest": "^29.7.0",
+        "jest-config": "29.7.0",
+        "ts-jest": "^29.3.4",
+        "typescript": "^5.8.3",
         "vite": "^6.3.5"
     },
-    "main": "./dist/index.umd.cjs",
+    "types": "./dist/IsBizMail.d.ts",
+    "main": "dist/isBizMail.umd.cjs",
     "exports": {
-        "import": "./dist/is-biz-mail.js",
-        "require": "./dist/index.umd.cjs"
+        ".": {
+            "types": "./dist/IsBizMail.d.ts",
+            "umd": "./dist/isBizMail.umd.cjs",
+            "require": "./dist/isBizMail.cjs",
+            "import": "./dist/isBizMail.js"
+        }
     },
     "scripts": {
         "refresh": "make all",
-        "build": "vite build",
+        "build": "vite build && tsc lib/index.ts --declaration --emitDeclarationOnly --outDir dist",
         "build:refresh": "make && vite build",
-        "test": "jest",
+        "test": "jest --config jest.config.js",
         "test:coverage": "jest --coverage",
         "test:coveralls": "jest --coverage && coveralls < coverage/lcov.info"
     },

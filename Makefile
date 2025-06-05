@@ -4,7 +4,7 @@ DOMAINS_COMMENT		:= free email providers
 DOMAINSW_COMMENT	:= free email patterns
 USER_AGENT	:= free email patterns
 
-ES_OUT 				:= ./lib/main.js
+ES_OUT 				:= ./lib/isBizMail.ts
 
 GIT_TAG				:= $(shell git describe --tags `git rev-list --tags --max-count=1`)
 

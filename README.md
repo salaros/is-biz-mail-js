@@ -36,16 +36,16 @@ You can support us in a small way, please consider starring and sharing this rep
 
 ## Installation
 
-You can install **isBizMail** for JavaScript via your prefered dependency manager, e.g. Yarn
+You can install **isBizMail** for JavaScript via your prefered dependency manager, e.g. PNMP, Yarn etc
 
 ```bash
-yarn add is-biz-mail
+npm i @salaros/is-biz-mail # pnpm add @salaros/is-biz-mail
 ```
 
-or via NPM
+or via Yarn
 
 ```bash
-npm i is-biz-mail
+yarn add @salaros/is-biz-mail
 ```
 
 ## Vanilla
@@ -53,45 +53,43 @@ npm i is-biz-mail
 One of examples of vanilla JavaScript usage might be a simple HTML page:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/is-biz-mail/dist/is-biz-mail.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@salaros/is-biz-mail@latest/dist/isBizMail.iife.js"></script>
 <script>
-    var result = isBizMail.isValid('foo@nodejs.onmicrosoft.com"');
-    console.log([email, result]);   // (2) ["foo@nodejs.onmicrosoft.com", false]
+    var email = 'foo@nodejs.onmicrosoft.com';
+    var result = new isBizMail().isFree(email);
+    console.log([email, result]); // (2) ["foo@nodejs.onmicrosoft.com", false], because *.onmicrosoft.com is considered a free domain
 </script>
 ```
 
-## ES5 / ES6 module
+## TS / ESM
 
 ```js
-import isBizMail from 'is-biz-mail';
+import IsBizMail from '@salaros/is-biz-mail';
+const isBizMail = new IsBizMail();
 
-let result = isBizMail.isFreeMailAddress('es6@gmail.com');
-console.log([email, result]);   // (2) ["es6@gmail.com", true]
+const email = 'es6@gmail.com';
+const result = isBizMail.isFree(email);
+console.log([email, result]); // (2) ["es6@gmail.com", true]
 // ...
 ```
 
 ## [CommonJS](http://requirejs.org/docs/commonjs.html), Node.js etc
 
 ```js
-const isBizMail = require('is-biz-mail');
+const IsBizMail = require('@salaros/is-biz-mail');
+const isBizMail = new IsBizMail();
 
-let result = isBizMail.isFreeMailAddress('cjs@yahoo.com');
-console.log([email, result]);   // (2) ["cjs@yahoo.com", true]
+const email = 'cjs@yahoo.com';
+const result = isBizMail.isFree(email);
+console.log([email, result]); // (2) ["cjs@yahoo.com", true]
 // ...
 ```
 
-## Testing: [Mocha](https://mochajs.org/) + [Should.js](https://shouldjs.github.io/)
+## Testing: [Jest](https://jestjs.io/)
 
 ```bash
-yarn
-yarn test
-```
-
-or via NPM
-
-```bash
-npm install
-npm test    # or ./node_modules/.bin/mocha
+npm install # pnpm/yarn install
+npm test    # pnpm/yarn test
 ```
 
 ## Credits
