@@ -9,10 +9,10 @@ Business Email Checker
 
 [![License](https://img.shields.io/github/license/salaros/is-biz-mail-js.svg)](https://github.com/salaros/is-biz-mail-js/blob/master/LICENSE)
 ![js type](https://img.shields.io/badge/type-Vanilla%20|%20CommonJS-589594.svg)
-[![npm](https://img.shields.io/npm/v/is-biz-mail.svg?colorB=cb3837)](https://www.npmjs.com/package/is-biz-mail)
-![npm](https://img.shields.io/npm/dt/is-biz-mail.svg)
-![npm](https://img.shields.io/npm/dw/is-biz-mail.svg)
-![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/is-biz-mail.svg)
+[![npm](https://img.shields.io/npm/v/is-biz-mail.svg?colorB=cb3837)](https://www.npmjs.com/package/@salaros/is-biz-mail)
+![npm](https://img.shields.io/npm/dt/@salaros/is-biz-mail.svg)
+![npm](https://img.shields.io/npm/dw/@salaros/is-biz-mail.svg)
+![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@salaros/is-biz-mail.svg)
 
 
 [![Donate Patreon](https://img.shields.io/badge/donate-Patreon-f96854.svg)](https://www.patreon.com/salaros/)
