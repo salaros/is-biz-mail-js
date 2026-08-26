@@ -1,4 +1,5 @@
 DOMAINS_LIST		:= ./build/freemail_domains.txt
+DOMAINS_LIST_DIST	:= ./dist/freemail_domains
 DOMAINS_LIST_PLUS	:= ./assets/emails-manually-added.txt
 DOMAINS_COMMENT		:= free email providers
 DOMAINSW_COMMENT	:= free email patterns
@@ -35,6 +36,8 @@ download: prepare
 	@sed -e 's/[[:space:]]*$$//g' -i $(DOMAINS_LIST)*
 	@sed -e 's/^[[:space:]]*//g' -i $(DOMAINS_LIST)*
 	@sed -e 's/  / /g' -i $(DOMAINS_LIST)*
+	@sed -e 's/ /\n/g' $(DOMAINS_LIST) > $(DOMAINS_LIST_DIST).txt # backuping current release's domains
+	@cat $(DOMAINS_LIST_DIST).txt | jq  --raw-input .  | jq --slurp . > $(DOMAINS_LIST_DIST).json # backuping current release's domains in JSON format
 	@sed 's/ /\n/6;P;D' -i $(DOMAINS_LIST)* # Split a single line in multiple rows each containing maximum 6 domains
 	@sed -e 's/ /", "/g' -i $(DOMAINS_LIST)*
 	@sed -e ':a' -e 'N' -e '$$!ba' -e 's/\n/",\n"/g' -i $(DOMAINS_LIST)*
